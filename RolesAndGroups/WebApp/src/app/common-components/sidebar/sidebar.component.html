@@ -1,0 +1,19 @@
+<div>
+
+<input type="checkbox" id="nav-toggle" hidden [(ngModel)]="isOpen">
+<nav class="nav">
+
+  <label for="nav-toggle" class="nav-toggle" onclick></label>
+
+  <h2 (click)="toggleSideBar()">
+    <a routerLink="/">Askhat</a>
+  </h2>
+  <ul>
+    <li (click)="toggleSideBar()"><a routerLink="roles/list">Roles</a></li>
+    <li (click)="toggleSideBar()"><a routerLink="groups/list">Groups</a></li>
+  </ul>
+</nav>
+<div class="mask-content" (click)="toggleSideBar()"></div>
+</div>
+
+

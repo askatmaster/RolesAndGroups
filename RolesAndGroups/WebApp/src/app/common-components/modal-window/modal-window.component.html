@@ -1,0 +1,18 @@
+<div class="css-modal-details">
+  <details>
+    <summary>{{buttonText}}</summary>
+    <div class="cmc" #summary>
+      <div class="cmt">
+        <span *ngIf="errorSbj | async as error" class="error">{{error}}</span>
+        <p>{{modalText}}</p>
+        <form [formGroup]="dataForm" (ngSubmit)="submit()">
+          <div *ngFor="let control of modalFormGroup.formControlsNames">
+            <label class="label">{{control.label}}</label>
+            <input type="text" [formControlName]="control.name">
+          </div>
+          <button type="submit" class="form-submit-button">Подтвердить</button>
+        </form>
+      </div>
+    </div>
+  </details>
+</div>

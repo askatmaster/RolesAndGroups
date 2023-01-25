@@ -1,0 +1,58 @@
+<app-load-spinner *ngIf="isLoading"></app-load-spinner>
+
+<div class="plate">
+  <ol class="rectangle">
+    <h2>Группы</h2>
+    <li *ngFor="let group of (groups$ | async)" (click)="selectGroup(group)">
+      <a>
+        {{group.name}}
+        <button class="delete" (click)="deleteGroup(group.id)">удалить</button>
+      </a>
+    </li>
+    <app-modal-window *ngIf="isAvailable"
+                      [modalFormGroup]="modalData"
+                      (submited)="createGroup($event)"
+                      buttonText="Добавить группу"
+                      modalText="Укажите данные"
+    ></app-modal-window>
+  </ol>
+
+
+  <div class="data-field">
+
+    <div class="filter-box">
+      <input #search placeholder="search" (input)="onSearch(search.value)"/>
+      <div class="select-box">
+        <select #filterSelect [(ngModel)]="filter" (change)="setFilter(filterSelect.value)">
+          <option>all</option>
+          <option>isSelected</option>
+          <option>isNotSelected</option>
+        </select>
+      </div>
+    </div>
+
+    <form [formGroup]="dataForm" (ngSubmit)="submit()">
+      <h2>Роли у которых имеется доступ к группе <span class="name">{{selectedGroup?.name}}</span></h2>
+
+      <p *ngIf="errorSbj | async as error" class="error">{{error}}</p>
+
+      <input formControlName="name"/>
+
+      <div *ngFor="let role of filteredRoles; trackBy: role?.id">
+        <input type="checkbox"
+               id="{{role.id}}"
+               name="{{role.id}}"
+               [checked]="role.isSelected"
+               (click)="selectRole(role, selectedGroup)">
+        <label for="{{role.id}}">{{role.name}}</label>
+      </div>
+
+      <button type="submit" class="form-submit-button">Сохранить</button>
+    </form>
+
+    <div class="pagination-box">
+      <button class="page-button" *ngFor="let page of totalPages" (click)="getPagedRoles(page)">{{page}}</button>
+    </div>
+
+  </div>
+</div>
